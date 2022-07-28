@@ -54,12 +54,11 @@
                 setGameOver();
             // If the player is on their last guessing opportunity, do this    
             } else if (guessCount === 10) {
+                lastResult.style.backgroundColor = 'red';
                 lastResult.textContent = "!!!GAME OVER!!!";
                 lowOrHi.textContent = '';
                 setGameOver();
             } else {
-                lastResult.textContent = 'Wrong!';
-                lastResult.style.backgroundColor = 'red';
                 if(userGuess < randomNumber) {
                     lowOrHi.textContent = 'Last guess was too low!';
                 } else if (userGuess > randomNumber) {
