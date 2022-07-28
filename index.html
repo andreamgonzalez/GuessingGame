@@ -20,76 +20,77 @@
     </div>
 
     <div class="resultParas">
-        <p class="guesses"></p>
+        <h4 class="guesses"></h4>
         <p class="lastResult"></p>
         <p class="lowOrHi"></p>
     </div>
 
     <script>
-        // Generates the random number for the game
+      
         let randomNumber = Math.floor(Math.random() * 100) + 1;
-        // Shows the players previous guesses.
         const guesses = document.querySelector('.guesses');
-        // Shows the players last/previous guess input value
+        
         const lastResult = document.querySelector('.lastResult');
         const lowOrHi = document.querySelector('.lowOrHi');
         const guessSubmit = document.querySelector('.guessSubmit');
-        // The players guess input value
+        
         const guessField = document.querySelector('.guessField');
-        let guessCount = 1;
+        let guessCount = 0;
         let resetButton;
 
         function checkGuess() {
+            guessCount++;
+            console.log(guessCount);
             let userGuess = Number(guessField.value);
             if (guessCount === 1) {
                 guesses.textContent = 'Previous guesses: ';
+
             }
             guesses.textContent += userGuess + ' ';
-
-            // If the player guesses correctly, do this
+            //guesses correctly
             if (userGuess === randomNumber) {
                 lastResult.textContent = 'Congratulations! You got it right!';
                 lastResult.style.backgroundColor = 'green';
-                lowOrHi.textContent = ' ';
+
                 setGameOver();
-            // If the player is on their last guessing opportunity, do this    
+            //last guess
             } else if (guessCount === 10) {
+
                 lastResult.style.backgroundColor = 'red';
                 lastResult.textContent = "!!!GAME OVER!!!";
-                lowOrHi.textContent = '';
+
                 setGameOver();
             } else {
-                if(userGuess < randomNumber) {
+                if(userGuess < randomNumber && guessCount <= 10) {
+
                     lowOrHi.textContent = 'Last guess was too low!';
-                } else if (userGuess > randomNumber) {
+                } else if (userGuess > randomNumber && guessCount <= 10) {
+
                     lowOrHi.textContent = 'Last guess was too high!';
                 }
             }
-            guessCount++; //augments the guess count by 1 each and every turn the player takes
-            guessField.value = ''; //clears the field value
-            guessField.focus();   //allows for input field to accept another value/guess
+          
+            guessField.value = ''; 
+            guessField.focus(); 
         }
 
-        guessSubmit.addEventListener('click', checkGuess); //runs the the checkguess() function on click event
+        guessSubmit.addEventListener('click', checkGuess);
 
-        //disables the player from adding further input or guesses into the game
-        // once a win or loss has been declared
+        
         function setGameOver() {
             guessField.disabled = true;
             guessSubmit.disabled = true;
             resetButton = document.createElement('button');
             resetButton.textContent = 'Start a new game';
             document.body.append(resetButton);
-            resetButton.addEventListener('click', resetGame); //adds a button to start a new game
+            resetButton.addEventListener('click', resetGame);
         }
 
         function resetGame() {
-            guessCount === 1; //resets guessCount Variable to 1 for the new game
+            guessCount = 0; 
 
-            const resetParas = document.querySelectorAll('.resultParas p'); //resets all the p tag fields
-            for (let i = 0; i < resetParas.length; i++){
-                resetParas[i].textContent = '';
-            }
+            const resetParas = document.querySelectorAll('.resultParas p');
+            resetParas.textContent=' ';
 
             resetButton.parentNode.removeChild(resetButton);
 
@@ -97,8 +98,11 @@
             guessSubmit.disabled = false;
             guessField.value = '';
             guessField.focus();
+            guesses.textContent = '';
 
             lastResult.style.backgroundColor = 'white';
+            lastResult.textContent = '';
+            lowOrHi.textContent = '';
 
             randomNumber = Math.floor(Math.random() * 100) + 1;
         }
