@@ -23,11 +23,14 @@
         <h4 class="guesses"></h4>
         <p class="lastResult"></p>
         <p class="lowOrHi"></p>
+        <p class="counter"></p>
     </div>
 
     <script>
       
         let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let guessCount = 0;
+        let resetButton;
         const guesses = document.querySelector('.guesses');
         
         const lastResult = document.querySelector('.lastResult');
@@ -35,12 +38,11 @@
         const guessSubmit = document.querySelector('.guessSubmit');
         
         const guessField = document.querySelector('.guessField');
-        let guessCount = 0;
-        let resetButton;
+        let counter = document.querySelector('.counter');
 
         function checkGuess() {
             guessCount++;
-            console.log(guessCount);
+            counter.textContent = 'Guesses Remaining: ' + (10 - guessCount);
             let userGuess = Number(guessField.value);
             if (guessCount === 1) {
                 guesses.textContent = 'Previous guesses: ';
@@ -103,6 +105,7 @@
             lastResult.style.backgroundColor = 'white';
             lastResult.textContent = '';
             lowOrHi.textContent = '';
+            counter.textContent = '';
 
             randomNumber = Math.floor(Math.random() * 100) + 1;
         }
